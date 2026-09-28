@@ -37,16 +37,26 @@ const Navbar = () => {
         </NavLink>
       </div>
       <div className="flex text-lg gap-8 text-white items-center">
-        <p className="text-xl font-bold">{user?.name || user}</p>
-        <button
-          onClick={async () => {
-            await logoutHandler();
-            navigate("/login");
-          }}
-          className="px-7 py-2 rounded-lg font-bold bg-black"
-        >
-          LogOut
-        </button>
+        {user && <p className="text-xl font-bold">{user.name}</p>}
+
+        {user ? (
+          <button
+            onClick={async () => {
+              await logoutHandler();
+              navigate("/login");
+            }}
+            className="px-7 py-2 rounded-lg font-bold bg-black"
+          >
+            Logout
+          </button>
+        ) : (
+          <button
+            onClick={() => navigate("/login")}
+            className="px-7 py-2 rounded-lg font-bold bg-black"
+          >
+            Login
+          </button>
+        )}
       </div>
     </main>
   );
