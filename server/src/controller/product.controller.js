@@ -21,6 +21,7 @@ export async function createProduct(req, res) {
     description: req.body.description,
     price: req.body.price,
     image: response.url,
+    createdBy: req.user.userId,
   });
 
   res.status(201).json({
@@ -64,7 +65,10 @@ export async function getProductById(req, res) {
 export async function updateProduct(req, res) {
   const { id } = req.params;
 
-  const product = await productModel.findById(id);
+  const product = await productModel.findOne({
+    _id:id,
+      createdBy: req.user.userId,
+  });
 
   if (!product) {
     return res.status(404).json({
@@ -98,7 +102,10 @@ export async function updateProduct(req, res) {
 export async function deleteProduct(req, res) {
   const { id } = req.params;
 
-  const product = await productModel.findById(id);
+  const product = await productModel.findOne({
+    _id:id,
+    createdBy: req.user.userId,
+  });
 
   if (!product) {
     return res.status(404).json({
